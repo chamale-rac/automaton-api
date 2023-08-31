@@ -16,16 +16,17 @@ class Expression:
     def __init__(self, expression):
         self.infix = expression
 
-        self.postfix = []
-        self.formatted = []
-        self.tokens = set()
+        self.postfix = None
+        self.postfix_string = None
+        self.formatted = None
+        self.tokens = None
 
         self.all_operators = ['|', '?', '+', '*', '^']
         self.binary_operators = ['|', '^']
         self.precedence = {'(': 1, '|': 2, '•': 3, '?': 4,
                            '*': 4, '+': 4, '^': 5}
 
-    def postfixString(self):
+    def getPostfixString(self):
         '''
         Convert the postfix expression to a string
 
@@ -35,7 +36,10 @@ class Expression:
 
     def shuntingYard(self):
         '''
-        Implementation of the shunting yard algorithm
+        Implementation of the shunting yard algorithm.
+
+        :notes: 
+            - types: grouping, operator, escaped, character
 
         :return: a list of tokens in postfix notation
         '''
@@ -76,6 +80,7 @@ class Expression:
             postfix.append(stack.pop())
 
         self.postfix = postfix
+        self.postfix_string = self.getPostfixString()
 
     def format(self):
         '''
