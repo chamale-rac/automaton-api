@@ -1,5 +1,5 @@
 from src.expression import Expression
-from src.abstract_syntax_tree import AbstractSyntaxTree
+from src._ast import AbstractSyntaxTree
 from src.utils.renderer import Renderer
 
 
@@ -21,9 +21,9 @@ def testExpression():
     for index in range(len(expressions)):
         expression = Expression(expressions[index])
         expression.shuntingYard()
-        print('TOKENS:', expression.tokens)
-        print(
-            f' >> INFIX := {expressions[index]} => POSTFIX := {expression.postfix_string}')
+        # print('TOKENS:', expression.tokens)
+        # print(
+        #     f' >> INFIX := {expressions[index]} => POSTFIX := {expression.postfix_string}')
         abstract_syntax_tree = AbstractSyntaxTree(expression)
         abstract_syntax_tree.build()
         abstract_syntax_tree.rasterize()
