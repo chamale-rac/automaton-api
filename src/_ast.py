@@ -57,22 +57,27 @@ class AbstractSyntaxTree:
         self.builded = stack.pop()
         self.serialize()
 
-    def rasterize(self):
+    def rasterize(self, web=False):
         '''
         Render the abstract syntax tree to a graphviz 
         '''
-        label = f'Abstract Syntax Tree\ninfix = {self.expression.infix} | postfix = {self.expression.postfix_string}'
+        if web:
+            label = None
+        else:
+            label = f'Abstract Syntax Tree\ninfix = {self.expression.infix} | postfix = {self.expression.postfix_string}'
 
         attributes = {
             'rankdir': 'TB',
             'label': label,
             'labelloc': 'b',
+            'fontname': 'Helvetica',
         }
 
         digraph = Digraph(graph_attr=attributes)
 
         def compose(three_node):
-            digraph.node(str(three_node.id), str(three_node.data[0]))
+            digraph.node(str(three_node.id), str(
+                three_node.data[0]), fontname='Helvetica')
             for child in reversed(three_node.children):
                 compose(child)
                 digraph.edge(str(three_node.id), str(child.id))

@@ -9,17 +9,16 @@ start_time = time.time()
 lines = ['(a|t)c', '(a|b)*', '(a*|b*)*', '((ε|a)|b*)*', '(a|b)*abb(a|b)*', '0?(1?)?0*',
          'if\\([ae]+\\)\\{[ei]+\\}(\\n(else\\{[jl]+\\}))?', '[ae03]+@[ae03]+.(com|net|org)(.(gt|cr|co))?', '[ae03]', '[a-e]', '[0-3]', '[a-e]|[0-3]']
 
-lines = ['(a|t)c']
 
 renderer = Renderer('./imgs')
 for index, line in enumerate(lines):
-    expression = Expression(lines)
+    expression = Expression(line)
     expression.shuntingYard()
     abstract_syntax_tree = AbstractSyntaxTree(expression)
     abstract_syntax_tree.build()
     abstract_syntax_tree.rasterize()
     renderer.render(abstract_syntax_tree.graph,
-                    'abstract_syntax_tree', index + 1, 'png')
+                    'abstract_syntax_tree', index + 1, 'svg')
 
 
 end_time = time.time()
