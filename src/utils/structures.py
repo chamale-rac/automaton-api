@@ -1,6 +1,15 @@
 class ThreeNode:
-    def __init__(self, data, children=[], id=None):
-        self.data = data
+    '''
+    Node of a tree
+
+    :param data: (token, type)
+    :param children: list of children
+    :param id: unique id of the node
+    '''
+
+    def __init__(self, data: tuple[str, str], children: list = [], id=None):
+
+        self.data = data  # (token, type)
         self.children = children
         self.id = id
 

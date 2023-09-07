@@ -19,7 +19,7 @@ class Expression:
         self.postfix = None
         self.postfix_string = None
         self.formatted = None
-        self.tokens = None
+        self.alphabet = None
 
         self.all_operators = ['|', '?', '+', '*', '^']
         self.binary_operators = ['|', '^']
@@ -148,5 +148,5 @@ class Expression:
                     index += 1
 
         self.formatted = result
-        self.tokens = set(
+        self.alphabet = set(
             filter(lambda x: x[1] in ['escaped', 'character'], result))

@@ -19,21 +19,6 @@ def work_post():
     images = []
     images.append(AbstractSyntaxTreeWrapper(
         expression, HEIGHT_REGEX, WIDTH_REGEX))
-    images.append(AbstractSyntaxTreeWrapper(
-        'a|b|c*asd', HEIGHT_REGEX, WIDTH_REGEX))
-    images.append(AbstractSyntaxTreeWrapper(
-        'ax?', HEIGHT_REGEX, WIDTH_REGEX))
-    images.append(AbstractSyntaxTreeWrapper(
-        'npm(install)*', HEIGHT_REGEX, WIDTH_REGEX))
-
-    images.append(AbstractSyntaxTreeWrapper(
-        expression, HEIGHT_REGEX, WIDTH_REGEX))
-    images.append(AbstractSyntaxTreeWrapper(
-        'a|b|c*asd', HEIGHT_REGEX, WIDTH_REGEX))
-    images.append(AbstractSyntaxTreeWrapper(
-        'ax?', HEIGHT_REGEX, WIDTH_REGEX))
-    images.append(AbstractSyntaxTreeWrapper(
-        'npm(install)*', HEIGHT_REGEX, WIDTH_REGEX))
 
     response = {
         'expression': expression,
