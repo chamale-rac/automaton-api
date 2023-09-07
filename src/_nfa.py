@@ -29,10 +29,8 @@ class NonDeterministicFiniteAutomaton:
                 match ast.data[0]:
                     case '•':
                         l_id_initial, l_id_final = compose(ast.children[1])
+                        id_global -= 1
                         r_id_initial, r_id_final = compose(ast.children[0])
-
-                        self.transitions.append(
-                            (l_id_final, ('ε', 'character'), r_id_initial))
 
                         return l_id_initial, r_id_final
                     case '|':
@@ -114,6 +112,5 @@ class NonDeterministicFiniteAutomaton:
                     transition[2]), str(transition[1][0]))
 
         compose(self.transitions)
-        print(self.transitions)
 
         self.graph = digraph

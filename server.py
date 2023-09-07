@@ -1,7 +1,7 @@
 
 from flask import Flask, jsonify, request
 from flask_cors import CORS
-from wrappers import *
+from wrapper import *
 import re
 
 HEIGHT_REGEX = re.compile(r'height="(\d+\.?\d*)(\w*)"', re.IGNORECASE)
@@ -16,9 +16,8 @@ def work_post():
     data = request.json
     expression = data['expression']
 
-    images = []
-    images.append(AbstractSyntaxTreeWrapper(
-        expression, HEIGHT_REGEX, WIDTH_REGEX))
+    images = wrapper(
+        expression, HEIGHT_REGEX, WIDTH_REGEX)
 
     response = {
         'expression': expression,
