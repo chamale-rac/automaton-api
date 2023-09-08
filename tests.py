@@ -10,10 +10,10 @@ def testExpression():
     from src.utils.renderer import Renderer
     # especial_test = input('Special expression: ') or 'ab\\nc'
 
-    expressions = ['(a|t)c', '(a|b)*', '(a*|b*)*', '((ε|a)|b*)*', '(a|b)*abb(a|b)*', '0?(1?)?0*',
+    expressions = ['(a|t)c', '(a|b)*', '(a*|b*)*', '((ϵ|a)|b*)*', '(a|b)*abb(a|b)*', '0?(1?)?0*',
                    'if\\([ae]+\\)\\{[ei]+\\}(\\n(else\\{[jl]+\\}))?', '[ae03]+@[ae03]+.(com|net|org)(.(gt|cr|co))?', '[ae03]', '[a-e]', '[0-3]', '[a-e]|[0-3]']
 
-    results = ['at|c•', 'ab|*', 'a*b*|*', 'εa|b*|*', 'ab|*a•b•b•ab|*•', '0?1??•0*•',
+    results = ['at|c•', 'ab|*', 'a*b*|*', 'ϵa|b*|*', 'ab|*a•b•b•ab|*•', '0?1??•0*•',
                'if•(•ae|+•)•{•ei|+•}•nel•s•e•{•jl|+•}••?•', 'ae|0|3|+@•ae|0|3|+•.•co•m•ne•t•|or•g•|•.gt•cr•|co•|•?•', 'ae|0|3|', 'ab|c|d|e|', '01|2|3|', 'ab|c|d|e|01|2|3||']
 
     for index in range(len(expressions)):
@@ -44,7 +44,7 @@ def testAST():
 
     start_time = time.time()
 
-    lines = ['(a|t)c', '(a|b)*', '(a*|b*)*', '((ε|a)|b*)*', '(a|b)*abb(a|b)*', '0?(1?)?0*',
+    lines = ['(a|t)c', '(a|b)*', '(a*|b*)*', '((ϵ|a)|b*)*', '(a|b)*abb(a|b)*', '0?(1?)?0*',
              'if\\([ae]+\\)\\{[ei]+\\}(\\n(else\\{[jl]+\\}))?', '[ae03]+@[ae03]+.(com|net|org)(.(gt|cr|co))?', '[ae03]', '[a-e]', '[0-3]', '[a-e]|[0-3]']
 
     renderer = Renderer('./imgs')
@@ -70,7 +70,7 @@ def testNFA():
 
     start_time = time.time()
 
-    lines = ['(a|t)c', '(a|b)*', '(a*|b*)*', '((ε|a)|b*)*', '(a|b)*abb(a|b)*', '0?(1?)?0*',
+    lines = ['(a|t)c', '(a|b)*', '(a*|b*)*', '((ϵ|a)|b*)*', '(a|b)*abb(a|b)*', '0?(1?)?0*',
              'if\\([ae]+\\)\\{[ei]+\\}(\\n(else\\{[jl]+\\}))?', '[ae03]+@[ae03]+.(com|net|org)(.(gt|cr|co))?', '[ae03]', '[a-e]', '[0-3]', '[a-e]|[0-3]']
 
     renderer = Renderer('./imgs')
@@ -101,10 +101,10 @@ def testDFA():
 
     start_time = time.time()
 
-    lines = ['(a|t)c', '(a|b)*', '(a*|b*)*', '((ε|a)|b*)*', '(a|b)*abb(a|b)*', '0?(1?)?0*',
+    lines = ['(a|t)c', '(a|b)*', '(a*|b*)*', '((ϵ|a)|b*)*', '(a|b)*abb(a|b)*', '0?(1?)?0*',
              'if\\([ae]+\\)\\{[ei]+\\}(\\n(else\\{[jl]+\\}))?', '[ae03]+@[ae03]+.(com|net|org)(.(gt|cr|co))?', '[ae03]', '[a-e]', '[0-3]', '[a-e]|[0-3]']
 
-    lines = ['(a|b)*abb', '(a*|b*)*']
+    lines = ['(ϵϵ)']
 
     renderer = Renderer('./imgs')
     for index, line in enumerate(lines):

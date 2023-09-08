@@ -48,7 +48,7 @@ class AbstractSyntaxTree:
                         stack.append(tn(token, [stack.pop(), stack.pop()]))
                     case '?':
                         stack.append(
-                            tn(('|', 'operator'), [stack.pop(), tn(('ε', 'character'))]))
+                            tn(('|', 'operator'), [stack.pop(), tn(('ϵ', 'character'))]))
                     case '+':
                         peaked = stack.pop()
                         clean = tn(('*', 'operator'), [peaked])

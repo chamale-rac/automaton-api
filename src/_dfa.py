@@ -10,7 +10,9 @@ class DeterministicFiniteAutomaton:
         self.nfa_id_final: int = nfa.id_final
 
         self.alphabet = sorted(alphabet, key=lambda x: ord(str(x[0])))
-        self.alphabet.append(('ε*', 'character'))
+        self.alphabet.append(('ϵ*', 'character'))
+        if ('ϵ', 'character') in self.alphabet:
+            self.alphabet.remove(('ϵ', 'character'))
 
         self.subsets_first = None
         self.transition_table = None
@@ -31,7 +33,7 @@ class DeterministicFiniteAutomaton:
             if id not in closure:
                 closure.add(id)
                 for i, token, j in self.nfa_transitions:
-                    if i == id and token == ('ε', 'character'):
+                    if i == id and token == ('ϵ', 'character'):
                         eClosureIntern(j)
 
         eClosureIntern(id)
@@ -56,6 +58,7 @@ class DeterministicFiniteAutomaton:
 
         transition_table = []
         dfa_states = []
+
         dfa_states.append(subsets_first[self.nfa_id_initial][-1])
 
         for i, dfa_state in enumerate(dfa_states):
@@ -70,9 +73,13 @@ class DeterministicFiniteAutomaton:
                     e_closure_vals.extend(subsets_first[val][-1])
                 e_closure_vals = set(e_closure_vals)
 
-                if e_closure_vals not in dfa_states:
-                    dfa_states.append(e_closure_vals)
-                letter = get_letter(dfa_states.index(e_closure_vals))
+                if e_closure_vals != set():
+                    if e_closure_vals not in dfa_states:
+                        dfa_states.append(e_closure_vals)
+                    letter = get_letter(dfa_states.index(e_closure_vals))
+                else:
+                    letter = None
+
                 row.append(letter)
             transition_table.append(row)
 
@@ -103,7 +110,8 @@ class DeterministicFiniteAutomaton:
         def compose(transition_table):
             for row in transition_table:
                 for i, state in enumerate(row[1:]):
-                    digraph.edge(row[0][0], state, self.alphabet[i][0])
+                    if state != None:
+                        digraph.edge(row[0][0], state, self.alphabet[i][0])
                 if row[0][1]:
                     digraph.node(row[0][0], row[0][0], shape='doublecircle')
 

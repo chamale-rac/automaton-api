@@ -1,6 +1,7 @@
 from src.expression import Expression
 from src._ast import AbstractSyntaxTree
 from src._nfa import NonDeterministicFiniteAutomaton
+from src._dfa import DeterministicFiniteAutomaton
 from src.utils.tools import to_base64
 
 
@@ -37,4 +38,20 @@ def wrapper(regex: str, HEIGHT_REGEX, WIDTH_REGEX):
         'description': f'\nYour expression: {regex}'
     }
 
-    return [AST, NFA]
+    dfa = DeterministicFiniteAutomaton(nfa, expression.alphabet)
+    dfa.subsetsBuild()
+    dfa.rasterize(web=True)
+
+    string, width, height = to_base64(dfa.graph.pipe(
+        format='svg'), HEIGHT_REGEX, WIDTH_REGEX)
+
+    DFA = {
+        'src': 'data:image/svg+xml;base64,' + string,
+        'alt': 'Deterministic Finite Automaton',
+        'width': width,
+        'height': height,
+        'title': 'Deterministic Finite Automaton',
+        'description': f'\nYour expression: {regex}'
+    }
+
+    return [AST, NFA, DFA, AST]

@@ -44,14 +44,14 @@ class NonDeterministicFiniteAutomaton:
                         id_global += 1
 
                         self.transitions.append(
-                            (id_initial, ('ε', 'character'), l_id_initial))
+                            (id_initial, ('ϵ', 'character'), l_id_initial))
                         self.transitions.append(
-                            (id_initial, ('ε', 'character'), r_id_initial))
+                            (id_initial, ('ϵ', 'character'), r_id_initial))
 
                         self.transitions.append(
-                            (l_id_final, ('ε', 'character'), id_final))
+                            (l_id_final, ('ϵ', 'character'), id_final))
                         self.transitions.append(
-                            (r_id_final, ('ε', 'character'), id_final))
+                            (r_id_final, ('ϵ', 'character'), id_final))
 
                         return id_initial, id_final
                     case '*':
@@ -65,14 +65,14 @@ class NonDeterministicFiniteAutomaton:
                         id_global += 1
 
                         self.transitions.append(
-                            (id_initial, ('ε', 'character'), c_id_initial))
+                            (id_initial, ('ϵ', 'character'), c_id_initial))
                         self.transitions.append(
-                            (id_initial, ('ε', 'character'), id_final))
+                            (id_initial, ('ϵ', 'character'), id_final))
 
                         self.transitions.append(
-                            (c_id_final, ('ε', 'character'), c_id_initial))
+                            (c_id_final, ('ϵ', 'character'), c_id_initial))
                         self.transitions.append(
-                            (c_id_final, ('ε', 'character'), id_final))
+                            (c_id_final, ('ϵ', 'character'), id_final))
 
                         return id_initial, id_final
 
