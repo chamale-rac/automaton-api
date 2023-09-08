@@ -27,23 +27,5 @@ def work_post():
     return jsonify(response), 200
 
 
-@app.route("/", methods=['GET'])
-def work_get():
-    # data = request.json
-    # expression = data['expression']
-    expression = "[0-3]"
-
-    images = []
-    images.append(AbstractSyntaxTreeWrapper(
-        expression, HEIGHT_REGEX, WIDTH_REGEX))
-
-    response = {
-        'expression': expression,
-        'images': images
-    }
-
-    return jsonify(response), 200
-
-
 if __name__ == '__main__':
     app.run()

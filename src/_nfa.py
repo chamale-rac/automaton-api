@@ -3,10 +3,10 @@ from .utils.structures import ThreeNode
 
 
 class NonDeterministicFiniteAutomaton:
-    def __init__(self, ast: ThreeNode):
+    def __init__(self, ast: ThreeNode) -> None:
         self.ast = ast.deepcopy()
         # (id_initial, id_alphabet: (toke, type), id_final)
-        self.transitions = []
+        self.transitions: list[tuple[int, tuple[str, str], int]] = []
         self.graph = None
         self.id_initial = None
         self.id_final = None
