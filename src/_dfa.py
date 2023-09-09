@@ -105,7 +105,7 @@ class DeterministicFiniteAutomaton:
             'rankdir': 'LR',
             'label': label,
             'labelloc': 'b',
-            'fontname': 'Helvetica',
+            'fontname': 'Helvetica'
         }
 
         digraph = Digraph(graph_attr=attributes)
@@ -133,14 +133,12 @@ class DeterministicFiniteAutomaton:
         self.non_accepting_states = [get_letter(self.states.index(state)) for state in self.states if self.nfa_id_final not in state]
         
         partition = [self.accepting_states, self.non_accepting_states]
-        print(partition)
+      
         
         def partition_algorithm(partition):
-            print('-'*100)
             partition_table = []
             for row in self.transition_table:      
                 combination = []
-                print([row[0][0]]+list(row[1:]))
                 for state in [row[0][0]]+list(row[1:]):
                     for i, part in enumerate(partition):
                         if state is None:
@@ -171,11 +169,6 @@ class DeterministicFiniteAutomaton:
         self.min_transition_states=partition_sets 
         self.min_transition_table=partition_table
 
-        print(self.min_transition_states)
-        print(self.alphabet)
-        for row in self.min_transition_table:
-            print(row)
-
 
     def min_rasterize(self, web=False):
         '''
@@ -190,7 +183,7 @@ class DeterministicFiniteAutomaton:
             'rankdir': 'LR',
             'label': label,
             'labelloc': 'b',
-            'fontname': 'Helvetica',
+            'fontname': 'Helvetica'
         }
 
         digraph = Digraph(graph_attr=attributes)

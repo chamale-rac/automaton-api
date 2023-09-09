@@ -70,7 +70,7 @@ class AbstractSyntaxTree:
             'rankdir': 'TB',
             'label': label,
             'labelloc': 'b',
-            'fontname': 'Helvetica',
+            'fontname': 'Helvetica'
         }
 
         digraph = Digraph(graph_attr=attributes)

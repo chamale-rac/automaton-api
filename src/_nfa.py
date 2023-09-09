@@ -91,7 +91,7 @@ class NonDeterministicFiniteAutomaton:
             'rankdir': 'LR',
             'label': label,
             'labelloc': 'b',
-            'fontname': 'Helvetica',
+            'fontname': 'Helvetica'
         }
 
         digraph = Digraph(graph_attr=attributes)
