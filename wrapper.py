@@ -54,4 +54,19 @@ def wrapper(regex: str, HEIGHT_REGEX, WIDTH_REGEX):
         'description': f'\nYour expression: {regex}'
     }
 
-    return [AST, NFA, DFA, AST]
+    dfa.minimize()
+    dfa.min_rasterize(web=True)
+
+    string, width, height = to_base64(
+        dfa.min_graph.pipe(format='svg'), HEIGHT_REGEX, WIDTH_REGEX)
+    
+    MIN_DFA = {
+        'src': 'data:image/svg+xml;base64,' + string,
+        'alt': 'Minimized Deterministic Finite Automaton',
+        'width': width,
+        'height': height,
+        'title': 'Minimized Deterministic Finite Automaton',
+        'description': f'\nYour expression: {regex}'
+    }
+
+    return [AST, NFA, DFA, MIN_DFA]
