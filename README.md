@@ -6,3 +6,16 @@ Use the next command to run the server:
 ```bash
 flask --app server run
 ```
+
+Modify the [compose.yalm](./compose.yaml) for hot reloading (use only for dev env):
+```
+services:
+  web:
+    build: .
+    ports:
+      - "8000:5000"
+    volumes:
+      - .:/code
+    environment:
+      FLASK_DEBUG: "true"
+```
