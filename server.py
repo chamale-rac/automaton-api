@@ -29,9 +29,4 @@ def work_post():
 
 @app.route("/", methods=['GET'])
 def salute():
-    return 'Hello!'
-
-
-if __name__ == '__main__':
-    app.run(debug=False, host='0.0.0.0')
-    
+    return 'Hello from iAutomaton server!'
