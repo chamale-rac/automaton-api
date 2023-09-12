@@ -27,10 +27,6 @@ def work_post():
     return jsonify(response), 200
 
 
-@app.route("/", methods=['GET'])
+@app.route("/healthz", methods=['GET'])
 def salute():
-    return 'Hello!'
-
-
-if __name__ == '__main__':
-    app.run()
+    return 'Hello from iAutomaton server!', 200
