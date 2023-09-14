@@ -59,7 +59,7 @@ def wrapper(regex: str, HEIGHT_REGEX, WIDTH_REGEX):
 
     string, width, height = to_base64(
         dfa.min_graph.pipe(format='svg'), HEIGHT_REGEX, WIDTH_REGEX)
-    
+
     MIN_DFA = {
         'src': 'data:image/svg+xml;base64,' + string,
         'alt': 'Minimized Deterministic Finite Automaton',
@@ -69,4 +69,20 @@ def wrapper(regex: str, HEIGHT_REGEX, WIDTH_REGEX):
         'description': f'\nYour expression: {regex}'
     }
 
-    return [AST, NFA, DFA, MIN_DFA]
+    head, body = dfa.dfa_table()
+
+    DFA_TABLE = {
+        'title': 'NFA to DFA state table',
+        'head': head,
+        'body': body,
+    }
+
+    head, body = dfa.min_table()
+
+    MIN_TABLE = {
+        'title': 'DFA to min-DFA state table',
+        'head': head,
+        'body': body,
+    }
+
+    return [AST, NFA, DFA, MIN_DFA], [DFA_TABLE, MIN_TABLE]

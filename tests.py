@@ -126,8 +126,13 @@ def testDFA():
         renderer.render(dfa.graph, 'dfa', index+1, 'png')
 
         dfa.minimize()
-        dfa.min_table()
+        head, body = dfa.dfa_table()
+        print(head)
+        print(body)
 
+        head, body = dfa.min_table()
+        print(head)
+        print(body)
 
     end_time = time.time()
     print(f"Execution took {end_time - start_time:.2f} seconds to run.")
@@ -141,7 +146,6 @@ def testMIN_DFA():
     from src.utils.renderer import Renderer
     from src._dfa import DeterministicFiniteAutomaton
 
-
     lines = ['(a|t)c', '(a|b)*', '(a*|b*)*', '((ϵ|a)|b*)*', '(a|b)*abb(a|b)*', '0?(1?)?0*',
              'if\\([ae]+\\)\\{[ei]+\\}(\\n(else\\{[jl]+\\}))?', '[ae03]+@[ae03]+.(com|net|org)(.(gt|cr|co))?', '[ae03]', '[a-e]', '[0-3]', '[a-e]|[0-3]']
 
@@ -149,7 +153,7 @@ def testMIN_DFA():
 
     renderer = Renderer('./imgs')
     for index, line in enumerate(lines):
-        
+
         start_time = time.time()
         expression = Expression(line)
         expression.shuntingYard()
@@ -168,17 +172,13 @@ def testMIN_DFA():
         dfa.rasterize()
         renderer.render(dfa.graph, 'dfa', index+1, 'png')
 
-        
         dfa.minimize()
         dfa.min_rasterize()
 
         renderer.render(dfa.min_graph, 'min_dfa', index+1, 'png')
 
-
-
         end_time = time.time()
         print(f"Execution took {end_time - start_time:.2f} seconds to run.")
-
 
 
 testDFA()
