@@ -219,4 +219,39 @@ class DeterministicFiniteAutomaton:
 
         self.min_graph = digraph    
 
+    def dfa_table(self):
+        head = ['NFA State', 'DFA State', 'Type'] + [token[0] for token in self.alphabet[:-1]]
+        body = []
+        
+        for i, state in enumerate(self.states):
+            type = ''
+            if self.nfa_id_final in state:
+                type = 'accept'
+            elif self.nfa_id_initial in state:
+                type = 'initial'
+            
+            body.append([state, get_letter(self.states.index(state)), type] + self.transition_table[i][1:])
+
+        return head, body    
+
+    def min_table(self):
+        head = ['DFA State', 'min-DFA State', 'Type'] +  [token[0] for token in self.alphabet[:-1]]
+        body = []
+        transitions_curated = set(row[1] for row in self.min_transition_table)
+        initial_states = [get_letter(self.states.index(state)) for state in self.states if self.nfa_id_initial in state]
+
+        for i, state in enumerate(self.min_transition_states):
+            actual = None
+            type = ''
+            for transition in transitions_curated:
+                if i == transition[0]:
+                    actual = list(transition)[1:]
+                    break
+            if state[0] in self.accepting_states:
+                type = 'accept'
+            elif state[0] in initial_states:
+                type = 'initial'
+            body.append([set(state), i+1, type] + actual)
+
+        return head, body
 
