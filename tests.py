@@ -104,7 +104,7 @@ def testDFA():
     lines = ['(a|t)c', '(a|b)*', '(a*|b*)*', '((ϵ|a)|b*)*', '(a|b)*abb(a|b)*', '0?(1?)?0*',
              'if\\([ae]+\\)\\{[ei]+\\}(\\n(else\\{[jl]+\\}))?', '[ae03]+@[ae03]+.(com|net|org)(.(gt|cr|co))?', '[ae03]', '[a-e]', '[0-3]', '[a-e]|[0-3]']
 
-    lines = ['(a|b)*abb(a|b)*']
+    lines = ['0?(1?)?0*']
 
     renderer = Renderer('./imgs')
     for index, line in enumerate(lines):
@@ -128,11 +128,13 @@ def testDFA():
         dfa.minimize()
         head, body = dfa.dfa_table()
         print(head)
-        print(body)
+        for row in body:
+            print(row)
 
         head, body = dfa.min_table()
         print(head)
-        print(body)
+        for row in body:
+            print(row)
 
     end_time = time.time()
     print(f"Execution took {end_time - start_time:.2f} seconds to run.")

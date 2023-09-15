@@ -257,6 +257,6 @@ class DeterministicFiniteAutomaton:
                 type = 'accept'
             elif state[0] in initial_states:
                 type = 'initial'
-            body.append([', '.join(map(str, state)), i+1, type] + actual)
+            body.append([', '.join(map(str, state)), str(i+1), type] + actual)
 
         return head, body

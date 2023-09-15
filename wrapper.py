@@ -16,10 +16,10 @@ def wrapper(regex: str, HEIGHT_REGEX, WIDTH_REGEX):
 
     AST = {
         'src': 'data:image/svg+xml;base64,' + string,
-        'alt': 'Abstract Syntax Tree',
+        'alt': 'Abstract Syntax Tree ',
         'width': width,
         'height': height,
-        'title': 'Abstract Syntax Tree',
+        'title': 'ATS (Abstract Syntax Tree)',
         'description': f'\nYour expression: {regex}'
     }
 
@@ -34,7 +34,7 @@ def wrapper(regex: str, HEIGHT_REGEX, WIDTH_REGEX):
         'alt': 'Non Deterministic Finite Automaton',
         'width': width,
         'height': height,
-        'title': 'Non Deterministic Finite Automaton',
+        'title': 'NFA (Non Deterministic Finite Automaton)',
         'description': f'\nYour expression: {regex}'
     }
 
@@ -50,7 +50,7 @@ def wrapper(regex: str, HEIGHT_REGEX, WIDTH_REGEX):
         'alt': 'Deterministic Finite Automaton',
         'width': width,
         'height': height,
-        'title': 'Deterministic Finite Automaton',
+        'title': 'DFA (Deterministic Finite Automaton)',
         'description': f'\nYour expression: {regex}'
     }
 
@@ -65,7 +65,7 @@ def wrapper(regex: str, HEIGHT_REGEX, WIDTH_REGEX):
         'alt': 'Minimized Deterministic Finite Automaton',
         'width': width,
         'height': height,
-        'title': 'Minimized Deterministic Finite Automaton',
+        'title': 'min-DFA (Minimized Deterministic Finite Automaton)',
         'description': f'\nYour expression: {regex}'
     }
 
