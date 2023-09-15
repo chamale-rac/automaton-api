@@ -16,12 +16,13 @@ def work_post():
     data = request.json
     expression = data['expression']
 
-    images = wrapper(
+    images, tables = wrapper(
         expression, HEIGHT_REGEX, WIDTH_REGEX)
 
     response = {
         'expression': expression,
-        'images': images
+        'images': images,
+        'tables': tables,
     }
 
     return jsonify(response), 200

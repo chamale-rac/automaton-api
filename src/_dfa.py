@@ -19,7 +19,7 @@ class DeterministicFiniteAutomaton:
         self.states = None
 
         self.graph = None
-        
+
         self.min_transition_table = None
         self.min_transition_states = None
         self.min_graph = None
@@ -129,15 +129,16 @@ class DeterministicFiniteAutomaton:
         '''
         Implementing the partition algorithm to minimize the DFA
         '''
-        self.accepting_states = [get_letter(self.states.index(state)) for state in self.states if self.nfa_id_final in state]
-        self.non_accepting_states = [get_letter(self.states.index(state)) for state in self.states if self.nfa_id_final not in state]
-        
+        self.accepting_states = [get_letter(self.states.index(
+            state)) for state in self.states if self.nfa_id_final in state]
+        self.non_accepting_states = [get_letter(self.states.index(
+            state)) for state in self.states if self.nfa_id_final not in state]
+
         partition = [self.accepting_states, self.non_accepting_states]
-      
-        
+
         def partition_algorithm(partition):
             partition_table = []
-            for row in self.transition_table:      
+            for row in self.transition_table:
                 combination = []
                 for state in [row[0][0]]+list(row[1:]):
                     for i, part in enumerate(partition):
@@ -156,19 +157,19 @@ class DeterministicFiniteAutomaton:
                     partitions_temp.append(row[1])
                     partition_sets.append([row[0]])
                 else:
-                    partition_sets[partitions_temp.index(row[1])].append(row[0])
+                    partition_sets[partitions_temp.index(
+                        row[1])].append(row[0])
 
             return partition_table, partition_sets
-        
+
         while True:
             partition_table, partition_sets = partition_algorithm(partition)
             if partition_sets == partition:
                 break
             partition = partition_sets
-        
-        self.min_transition_states=partition_sets 
-        self.min_transition_table=partition_table
 
+        self.min_transition_states = partition_sets
+        self.min_transition_table = partition_table
 
     def min_rasterize(self, web=False):
         '''
@@ -189,8 +190,9 @@ class DeterministicFiniteAutomaton:
         digraph = Digraph(graph_attr=attributes)
 
         def compose(transition_table, states):
-            initial_states = [get_letter(self.states.index(state)) for state in self.states if self.nfa_id_initial in state]
-       
+            initial_states = [get_letter(self.states.index(
+                state)) for state in self.states if self.nfa_id_initial in state]
+
             index_dict = {}
             for i, state in enumerate(states):
                 for letter in state:
@@ -210,13 +212,51 @@ class DeterministicFiniteAutomaton:
                 id = str(index_dict[row[0]])
                 if row[0] in self.accepting_states:
                     digraph.node(id, id, shape='doublecircle')
-                
+
                 for i, transition in enumerate(row[1][1:]):
                     if transition is not None:
                         digraph.edge(id, str(transition), self.alphabet[i][0])
 
         compose(self.min_transition_table, self.min_transition_states)
 
-        self.min_graph = digraph    
+        self.min_graph = digraph
 
+    def dfa_table(self):
+        head = ['NFA State', 'DFA State', 'Type'] + [token[0]
+                                                     for token in self.alphabet[:-1]]
+        body = []
 
+        for i, state in enumerate(self.states):
+            type = ''
+            if self.nfa_id_final in state:
+                type = 'accept'
+            elif self.nfa_id_initial in state:
+                type = 'initial'
+
+            body.append([', '.join(map(str, state)), get_letter(self.states.index(state)),
+                        type] + self.transition_table[i][1:])
+
+        return head, body
+
+    def min_table(self):
+        head = ['DFA State', 'min-DFA State', 'Type'] + [token[0]
+                                                         for token in self.alphabet[:-1]]
+        body = []
+        transitions_curated = set(row[1] for row in self.min_transition_table)
+        initial_states = [get_letter(self.states.index(
+            state)) for state in self.states if self.nfa_id_initial in state]
+
+        for i, state in enumerate(self.min_transition_states):
+            actual = None
+            type = ''
+            for transition in transitions_curated:
+                if i == transition[0]:
+                    actual = list(transition)[1:]
+                    break
+            if state[0] in self.accepting_states:
+                type = 'accept'
+            elif state[0] in initial_states:
+                type = 'initial'
+            body.append([', '.join(map(str, state)), str(i+1), type] + actual)
+
+        return head, body

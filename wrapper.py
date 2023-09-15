@@ -16,10 +16,10 @@ def wrapper(regex: str, HEIGHT_REGEX, WIDTH_REGEX):
 
     AST = {
         'src': 'data:image/svg+xml;base64,' + string,
-        'alt': 'Abstract Syntax Tree',
+        'alt': 'Abstract Syntax Tree ',
         'width': width,
         'height': height,
-        'title': 'Abstract Syntax Tree',
+        'title': 'ATS (Abstract Syntax Tree)',
         'description': f'\nYour expression: {regex}'
     }
 
@@ -34,7 +34,7 @@ def wrapper(regex: str, HEIGHT_REGEX, WIDTH_REGEX):
         'alt': 'Non Deterministic Finite Automaton',
         'width': width,
         'height': height,
-        'title': 'Non Deterministic Finite Automaton',
+        'title': 'NFA (Non Deterministic Finite Automaton)',
         'description': f'\nYour expression: {regex}'
     }
 
@@ -50,7 +50,7 @@ def wrapper(regex: str, HEIGHT_REGEX, WIDTH_REGEX):
         'alt': 'Deterministic Finite Automaton',
         'width': width,
         'height': height,
-        'title': 'Deterministic Finite Automaton',
+        'title': 'DFA (Deterministic Finite Automaton)',
         'description': f'\nYour expression: {regex}'
     }
 
@@ -59,14 +59,30 @@ def wrapper(regex: str, HEIGHT_REGEX, WIDTH_REGEX):
 
     string, width, height = to_base64(
         dfa.min_graph.pipe(format='svg'), HEIGHT_REGEX, WIDTH_REGEX)
-    
+
     MIN_DFA = {
         'src': 'data:image/svg+xml;base64,' + string,
         'alt': 'Minimized Deterministic Finite Automaton',
         'width': width,
         'height': height,
-        'title': 'Minimized Deterministic Finite Automaton',
+        'title': 'min-DFA (Minimized Deterministic Finite Automaton)',
         'description': f'\nYour expression: {regex}'
     }
 
-    return [AST, NFA, DFA, MIN_DFA]
+    head, body = dfa.dfa_table()
+
+    DFA_TABLE = {
+        'title': 'NFA to DFA state table',
+        'head': head,
+        'body': body,
+    }
+
+    head, body = dfa.min_table()
+
+    MIN_TABLE = {
+        'title': 'DFA to min-DFA state table',
+        'head': head,
+        'body': body,
+    }
+
+    return [AST, NFA, DFA, MIN_DFA], [DFA_TABLE, MIN_TABLE]
