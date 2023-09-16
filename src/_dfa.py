@@ -5,10 +5,7 @@ from .utils.tools import get_letter
 
 class DeterministicFiniteAutomaton:
     def __init__(self, nfa: NonDeterministicFiniteAutomaton, alphabet: set[tuple[str, str]]) -> None:
-        self.nfa_transitions = nfa.transitions
-        self.nfa_id_initial: int = nfa.id_initial
-        self.nfa_id_final: int = nfa.id_final
-
+        self.nfa = nfa
         self.alphabet = sorted(alphabet, key=lambda x: ord(str(x[0])))
         self.alphabet.append(('ϵ*', 'character'))
         if ('ϵ', 'character') in self.alphabet:
@@ -26,38 +23,18 @@ class DeterministicFiniteAutomaton:
         self.accepting_states = None
         self.non_accepting_states = None
 
-    def eClosure(self, id):
-        '''
-        Get the epsilon closure of a state
-
-        :param id: state id
-        :return: a set of states
-        '''
-        closure = set()
-
-        def eClosureIntern(id):
-            if id not in closure:
-                closure.add(id)
-                for i, token, j in self.nfa_transitions:
-                    if i == id and token == ('ϵ', 'character'):
-                        eClosureIntern(j)
-
-        eClosureIntern(id)
-        return closure
-
     def subsetsBuild(self) -> None:
         '''
         Build the deterministic finite automaton from the non-deterministic finite automaton
         '''
         subsets_first = []
 
-        for i in range(self.nfa_id_final+1):
+        for i in range(self.nfa.id_final+1):
             row = []
             for token in self.alphabet[:-1]:
-                any_values = {
-                    any for i_, token_, any in self.nfa_transitions if i_ == i and token_ == token}
+                any_values = self.nfa.move(i, token)
                 row.append(any_values)
-            row.append(self.eClosure(i))
+            row.append(self.nfa.e_closure(i))
             subsets_first.append(row)
 
         self.subsets_first = subsets_first
@@ -65,10 +42,10 @@ class DeterministicFiniteAutomaton:
         transition_table = []
         dfa_states = []
 
-        dfa_states.append(subsets_first[self.nfa_id_initial][-1])
+        dfa_states.append(subsets_first[self.nfa.id_initial][-1])
 
         for i, dfa_state in enumerate(dfa_states):
-            row = [(get_letter(i), bool(self.nfa_id_final in dfa_state))]
+            row = [(get_letter(i), bool(self.nfa.id_final in dfa_state))]
             for token_index in range(len(self.alphabet)-1):
                 vals = []
                 for nfa_state in dfa_state:
@@ -130,9 +107,9 @@ class DeterministicFiniteAutomaton:
         Implementing the partition algorithm to minimize the DFA
         '''
         self.accepting_states = [get_letter(self.states.index(
-            state)) for state in self.states if self.nfa_id_final in state]
+            state)) for state in self.states if self.nfa.id_final in state]
         self.non_accepting_states = [get_letter(self.states.index(
-            state)) for state in self.states if self.nfa_id_final not in state]
+            state)) for state in self.states if self.nfa.id_final not in state]
 
         partition = [self.accepting_states, self.non_accepting_states]
 
@@ -191,7 +168,7 @@ class DeterministicFiniteAutomaton:
 
         def compose(transition_table, states):
             initial_states = [get_letter(self.states.index(
-                state)) for state in self.states if self.nfa_id_initial in state]
+                state)) for state in self.states if self.nfa.id_initial in state]
 
             index_dict = {}
             for i, state in enumerate(states):
@@ -228,9 +205,9 @@ class DeterministicFiniteAutomaton:
 
         for i, state in enumerate(self.states):
             type = ''
-            if self.nfa_id_final in state:
+            if self.nfa.id_final in state:
                 type = 'accept'
-            elif self.nfa_id_initial in state:
+            elif self.nfa.id_initial in state:
                 type = 'initial'
 
             body.append([', '.join(map(str, state)), get_letter(self.states.index(state)),
@@ -244,7 +221,7 @@ class DeterministicFiniteAutomaton:
         body = []
         transitions_curated = set(row[1] for row in self.min_transition_table)
         initial_states = [get_letter(self.states.index(
-            state)) for state in self.states if self.nfa_id_initial in state]
+            state)) for state in self.states if self.nfa.id_initial in state]
 
         for i, state in enumerate(self.min_transition_states):
             actual = None

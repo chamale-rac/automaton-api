@@ -11,18 +11,34 @@ app = Flask(__name__)
 CORS(app)
 
 
-@app.route("/", methods=['POST'])
-def work_post():
+@app.route("/graphs", methods=['POST'])
+def work_graphs():
     data = request.json
     expression = data['expression']
 
-    images, tables = wrapper(
+    images, tables = wrapper_graphs(
         expression, HEIGHT_REGEX, WIDTH_REGEX)
 
     response = {
         'expression': expression,
         'images': images,
         'tables': tables,
+    }
+
+    return jsonify(response), 200
+
+
+@app.route("/simulation", methods=['POST'])
+def work_simulation():
+    data = request.json
+    expression = data['expression']
+    strings = data['strings']
+
+    wrapper_simulation(expression, strings)
+
+    response = {
+        'expression': expression,
+        'strings': strings,
     }
 
     return jsonify(response), 200

@@ -150,3 +150,7 @@ class Expression:
         self.formatted = result
         self.alphabet = set(
             filter(lambda x: x[1] in ['escaped', 'character'], result))
+
+    def format_string(self):
+        self.formatted = list(filter(
+            lambda x: x[1] in ['escaped', 'character'], self.formatted))
