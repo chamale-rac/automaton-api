@@ -188,8 +188,9 @@ def testSimulate_NFA():
     from src.expression import Expression
     from src._ast import AbstractSyntaxTree
     from src._nfa import NonDeterministicFiniteAutomaton
+    from src._dfa import DeterministicFiniteAutomaton
 
-    lines = ['(a|t)(a|c)']
+    lines = ['(a|b)*c']
 
     for index, line in enumerate(lines):
         start_time = time.time()
@@ -204,8 +205,16 @@ def testSimulate_NFA():
             abstract_syntax_tree.builded, expression.alphabet)
         nfa.thompson()
 
-        for string in ['axc', 'a\?t', 'tc', 'ttx', 'aaa', 'aa']:
-            print(f'{string} => {nfa.simulate(string)}')
+        dfa = DeterministicFiniteAutomaton(nfa, expression.alphabet)
+        dfa.subsetsBuild()
+
+        for string in ['ab', 'ac', 'aaabac', 'babc']:
+            expression = Expression(string)
+            expression.format()
+            expression.format_string()
+            print(f'{string} => ------------------------------------')
+            print(f'{string} => {nfa.simulate(expression.formatted)}')
+            print(f'{string} => {dfa.simulate(expression.formatted)}')
 
         end_time = time.time()
         print(f"Execution took {end_time - start_time:.2f} seconds to run.")

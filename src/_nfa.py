@@ -142,16 +142,13 @@ class NonDeterministicFiniteAutomaton:
         '''
         return {any for i_, token_, any in self.transitions if i_ == id and token_ == token}
 
-    def simulate(self, string: str):
+    def simulate(self, formatted: list[tuple[str, str]]):
         '''
         Simulate the NFA with a string
         '''
-        expression = Expression(string)
-        expression.format()
-        expression.format_string()
 
         closure = self.e_closure(self.id_initial)
-        for token in expression.formatted:
+        for token in formatted:
             matched_nodes = set()
             for id in closure:
                 any_values = self.move(id, token)

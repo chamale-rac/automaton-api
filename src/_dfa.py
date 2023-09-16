@@ -237,3 +237,26 @@ class DeterministicFiniteAutomaton:
             body.append([', '.join(map(str, state)), str(i+1), type] + actual)
 
         return head, body
+
+    def simulate(self, formatted: list[tuple[str, str]]):
+        '''
+        Simulate the DFA with a string
+        '''
+        state_index = 0
+        for token in formatted:
+            try:
+                token_index = self.alphabet.index(token)
+            except ValueError:
+                return False
+            move = self.transition_table[state_index][token_index+1]
+            if move is None:
+                return False
+            else:
+                for i in range(len(self.states)):
+                    if move == get_letter(i):
+                        state_index = i
+                        break
+
+        if self.transition_table[state_index][0][1]:
+            return True
+        return False
