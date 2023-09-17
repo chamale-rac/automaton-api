@@ -34,11 +34,11 @@ def work_simulation():
     expression = data['expression']
     strings = data['strings']
 
-    wrapper_simulation(expression, strings)
+    tables = wrapper_simulation(expression, strings)
 
     response = {
         'expression': expression,
-        'strings': strings,
+        'tables': tables,
     }
 
     return jsonify(response), 200

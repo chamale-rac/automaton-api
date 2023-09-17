@@ -216,6 +216,10 @@ def testSimulate_NFA():
             print(f'{string} => {nfa.simulate(expression.formatted)}')
             print(f'{string} => {dfa.simulate(expression.formatted)}')
 
+            EXPRESSION = ''
+            for token in expression.formatted:
+                EXPRESSION += token[0]
+
         end_time = time.time()
         print(f"Execution took {end_time - start_time:.2f} seconds to run.")
 

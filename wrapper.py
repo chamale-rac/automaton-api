@@ -89,4 +89,39 @@ def wrapper_graphs(regex: str, HEIGHT_REGEX, WIDTH_REGEX):
 
 
 def wrapper_simulation(regex: str, strings: list[str]):
-    return 0
+    head = ['Input', 'Used as', 'NFA', 'DFA']
+    body = []
+
+    expression = Expression(regex)
+    expression.shuntingYard()
+
+    ast = AbstractSyntaxTree(expression)
+    ast.build()
+
+    nfa = NonDeterministicFiniteAutomaton(ast.builded, expression.alphabet)
+    nfa.thompson()
+
+    dfa = DeterministicFiniteAutomaton(nfa, expression.alphabet)
+    dfa.subsetsBuild()
+
+    for i, string in enumerate(strings):
+        expression = Expression(string)
+        expression.format()
+        expression.format_string()
+
+        in_nfa = nfa.simulate(expression.formatted)
+        in_dfa = dfa.simulate(expression.formatted)
+
+        used = ''
+        for token in expression.formatted:
+            used += token[0]
+
+        body.append([string, used, str(in_nfa), str(in_dfa)])
+
+    RES_TABLE = {
+        'title': 'Simulation results',
+        'head': head,
+        'body': body,
+    }
+
+    return [RES_TABLE]
