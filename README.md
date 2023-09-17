@@ -7,6 +7,7 @@ Optimized implementation of Infix to postfix, Regex to ATS, ATS to NFA, NFA to D
 - [💻 Standalone terminal program version.](#standalone-terminal-program-version)
 - [🌐 How to run the server?](#how-to-run-the-server)
 - [🧐 Who I am?](#who-i-am)
+- [🤔 Why I code this?](#why-i-code-this)
 
 ## Standalone terminal program version
 
@@ -41,6 +42,10 @@ services:
     environment:
       FLASK_DEBUG: "true"
 ```
+
+## Why I code this?
+
+Es el **Proyecto No. 1** de **Teoría de la Computación** **Sección 20** del **Segundo ciclo 2023**. Valía puntos, fuí coaccionado 😭.
 
 ## Who I am?
 
