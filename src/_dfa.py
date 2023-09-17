@@ -234,7 +234,7 @@ class DeterministicFiniteAutomaton:
                 type = 'accept'
             elif state[0] in initial_states:
                 type = 'initial'
-            body.append([', '.join(map(str, state)), str(i+1), type] + actual)
+            body.append([', '.join(map(str, state)), str(i), type] + actual)
 
         return head, body
 
@@ -244,19 +244,43 @@ class DeterministicFiniteAutomaton:
         '''
         state_index = 0
         for token in formatted:
-            try:
-                token_index = self.alphabet.index(token)
-            except ValueError:
-                return False
-            move = self.transition_table[state_index][token_index+1]
-            if move is None:
-                return False
-            else:
-                for i in range(len(self.states)):
-                    if move == get_letter(i):
-                        state_index = i
-                        break
+            if token != ('ϵ', 'character'):
+                try:
+                    token_index = self.alphabet.index(token)
+                except ValueError:
+                    return False
+                move = self.transition_table[state_index][token_index+1]
+                if move is None:
+                    return False
+                else:
+                    for i in range(len(self.states)):
+                        if move == get_letter(i):
+                            state_index = i
+                            break
 
         if self.transition_table[state_index][0][1]:
+            return True
+        return False
+
+    def min_simulate(self, formatted: list[tuple[str, str]]):
+        '''
+        Simulate the min-DFA with a string
+        '''
+        transitions_curated = set(row[1] for row in self.min_transition_table)
+
+        state_index = 0
+        for token in formatted:
+            if token != ('ϵ', 'character'):
+                for transition in transitions_curated:
+                    if state_index == transition[0]:
+                        try:
+                            token_index = self.alphabet.index(token)
+                        except ValueError:
+                            return False
+                        state_index = transition[token_index+1]
+                        break
+        if state_index is None:
+            return False
+        if self.min_transition_states[state_index][0] in self.accepting_states:
             return True
         return False

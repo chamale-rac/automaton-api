@@ -207,6 +207,7 @@ def testSimulate_NFA():
 
         dfa = DeterministicFiniteAutomaton(nfa, expression.alphabet)
         dfa.subsetsBuild()
+        dfa.minimize()
 
         for string in ['ab', 'ac', 'aaabac', 'babc']:
             expression = Expression(string)
@@ -215,6 +216,7 @@ def testSimulate_NFA():
             print(f'{string} => ------------------------------------')
             print(f'{string} => {nfa.simulate(expression.formatted)}')
             print(f'{string} => {dfa.simulate(expression.formatted)}')
+            print(f'{string} => {dfa.min_simulate(expression.formatted)}')
 
             EXPRESSION = ''
             for token in expression.formatted:
