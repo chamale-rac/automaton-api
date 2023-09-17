@@ -1,6 +1,8 @@
 # 🚀 automaton-server AKA Proyecto 1
 
-Optimized implementation of Infix to postfix, Regex to ATS, ATS to NFA, NFA to DFA and DFA to DFA minimized.
+Implementation of Shunting Yard, Thompson, subsets building and mnimization algorithms
+
+You can effortlessly generate graphs from regular expressions, including Abstract Syntax Tree, Non-deterministic Finite Automaton, Deterministic Finite Automaton, and Minimized Finite Automaton. Additionally, iAutomaton enables you to simulate these automata with various input strings
 
 ## 📑 Index
 
