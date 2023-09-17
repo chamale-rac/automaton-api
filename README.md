@@ -1,6 +1,7 @@
 # 🚀 automaton-server AKA Proyecto 1
 
-Implementation of Shunting Yard, Thompson, subsets building and mnimization algorithms
+Implementation of Shunting Yard, Thompson, subsets building and minimization algorithms.
+
 
 You can effortlessly generate graphs from regular expressions, including Abstract Syntax Tree, Non-deterministic Finite Automaton, Deterministic Finite Automaton, and Minimized Finite Automaton. Additionally, iAutomaton enables you to simulate these automata with various input strings
 
