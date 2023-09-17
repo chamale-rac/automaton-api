@@ -6,8 +6,8 @@ Optimized implementation of Infix to postfix, Regex to ATS, ATS to NFA, NFA to D
 
 - [💻 Standalone terminal program version.](#standalone-terminal-program-version)
 - [🌐 How to run the server?](#how-to-run-the-server)
-- [🧐 Who I am?](#who-i-am)
 - [🤔 Why I code this?](#why-i-code-this)
+- [🧐 Who I am?](#who-i-am)
 
 ## Standalone terminal program version
 
