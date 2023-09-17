@@ -64,7 +64,7 @@ class AbstractSyntaxTree:
         if web:
             label = None
         else:
-            label = f'Abstract Syntax Tree\ninfix = {self.expression.infix} | postfix = {self.expression.postfix_string}'
+            label = f'Abstract Syntax Tree\nExpression: {self.expression.infix} '
 
         attributes = {
             'rankdir': 'TB',

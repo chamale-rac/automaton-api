@@ -5,7 +5,7 @@ from src._dfa import DeterministicFiniteAutomaton
 from src.utils.tools import to_base64
 
 
-def wrapper(regex: str, HEIGHT_REGEX, WIDTH_REGEX):
+def wrapper_graphs(regex: str, HEIGHT_REGEX, WIDTH_REGEX):
     expression = Expression(regex)
     expression.shuntingYard()
     ast = AbstractSyntaxTree(expression)
@@ -20,10 +20,10 @@ def wrapper(regex: str, HEIGHT_REGEX, WIDTH_REGEX):
         'width': width,
         'height': height,
         'title': 'ATS (Abstract Syntax Tree)',
-        'description': f'\nYour expression: {regex}'
+        'description': f'\nUsing: {regex}'
     }
 
-    nfa = NonDeterministicFiniteAutomaton(ast.builded)
+    nfa = NonDeterministicFiniteAutomaton(ast.builded, expression.alphabet)
     nfa.thompson()
     nfa.rasterize(web=True)
     string, width, height = to_base64(nfa.graph.pipe(
@@ -35,7 +35,7 @@ def wrapper(regex: str, HEIGHT_REGEX, WIDTH_REGEX):
         'width': width,
         'height': height,
         'title': 'NFA (Non Deterministic Finite Automaton)',
-        'description': f'\nYour expression: {regex}'
+        'description': f'\nUsing: {regex}'
     }
 
     dfa = DeterministicFiniteAutomaton(nfa, expression.alphabet)
@@ -51,7 +51,7 @@ def wrapper(regex: str, HEIGHT_REGEX, WIDTH_REGEX):
         'width': width,
         'height': height,
         'title': 'DFA (Deterministic Finite Automaton)',
-        'description': f'\nYour expression: {regex}'
+        'description': f'\nUsing: {regex}'
     }
 
     dfa.minimize()
@@ -66,7 +66,7 @@ def wrapper(regex: str, HEIGHT_REGEX, WIDTH_REGEX):
         'width': width,
         'height': height,
         'title': 'min-DFA (Minimized Deterministic Finite Automaton)',
-        'description': f'\nYour expression: {regex}'
+        'description': f'\nUsing: {regex}'
     }
 
     head, body = dfa.dfa_table()
@@ -86,3 +86,44 @@ def wrapper(regex: str, HEIGHT_REGEX, WIDTH_REGEX):
     }
 
     return [AST, NFA, DFA, MIN_DFA], [DFA_TABLE, MIN_TABLE]
+
+
+def wrapper_simulation(regex: str, strings: list[str]):
+    head = ['Input', 'Used as', 'NFA', 'DFA', 'min-DFA']
+    body = []
+
+    expression = Expression(regex)
+    expression.shuntingYard()
+
+    ast = AbstractSyntaxTree(expression)
+    ast.build()
+
+    nfa = NonDeterministicFiniteAutomaton(ast.builded, expression.alphabet)
+    nfa.thompson()
+
+    dfa = DeterministicFiniteAutomaton(nfa, expression.alphabet)
+    dfa.subsetsBuild()
+    dfa.minimize()
+
+    for i, string in enumerate(strings):
+        expression = Expression(string)
+        expression.format()
+        expression.format_string()
+
+        in_nfa = nfa.simulate(expression.formatted)
+        in_dfa = dfa.simulate(expression.formatted)
+        in_min_dfa = dfa.min_simulate(expression.formatted)
+
+        used = ''
+        for token in expression.formatted:
+            used += token[0]
+
+        body.append([string, used, str(in_nfa), str(in_dfa), str(in_min_dfa)])
+
+    RES_TABLE = {
+        'title': 'Simulation results',
+        'head': head,
+        'body': body,
+    }
+
+    return [RES_TABLE]

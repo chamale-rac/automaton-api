@@ -1,10 +1,12 @@
 from graphviz import Digraph
 from .utils.structures import ThreeNode
+from .expression import Expression
 
 
 class NonDeterministicFiniteAutomaton:
-    def __init__(self, ast: ThreeNode) -> None:
+    def __init__(self, ast: ThreeNode, alphabet: set[tuple[str, str]]) -> None:
         self.ast = ast.deepcopy()
+        self.alphabet = alphabet
         # (id_initial, id_alphabet: (toke, type), id_final)
         self.transitions: list[tuple[int, tuple[str, str], int]] = []
         self.graph = None
@@ -114,3 +116,51 @@ class NonDeterministicFiniteAutomaton:
         compose(self.transitions)
 
         self.graph = digraph
+
+    def e_closure(self, id):
+        '''
+        Get the epsilon closure of a state
+
+        :param id: state id
+        :return: a set of states
+        '''
+        closure = set()
+
+        def e_closure_intern(id):
+            if id not in closure:
+                closure.add(id)
+                for i, token, j in self.transitions:
+                    if i == id and token == ('ϵ', 'character'):
+                        e_closure_intern(j)
+
+        e_closure_intern(id)
+        return closure
+
+    def move(self, id, token):
+        '''
+        Get the move of a state with a char token
+        '''
+        return {any for i_, token_, any in self.transitions if i_ == id and token_ == token}
+
+    def simulate(self, formatted: list[tuple[str, str]]):
+        '''
+        Simulate the NFA with a string
+        '''
+
+        closure = self.e_closure(self.id_initial)
+        for token in formatted:
+            matched_nodes = set()
+            for id in closure:
+                any_values = self.move(id, token)
+                if any_values:
+                    matched_nodes.update(any_values)
+            if len(matched_nodes) == 0:
+                return False
+            closure = set()
+            for id in matched_nodes:
+                closure.update(self.e_closure(id))
+        for id in closure:
+            if id == self.id_final:
+                return True
+        else:
+            return False

@@ -183,4 +183,47 @@ def testMIN_DFA():
         print(f"Execution took {end_time - start_time:.2f} seconds to run.")
 
 
-testDFA()
+def testSimulate_NFA():
+    import time
+    from src.expression import Expression
+    from src._ast import AbstractSyntaxTree
+    from src._nfa import NonDeterministicFiniteAutomaton
+    from src._dfa import DeterministicFiniteAutomaton
+
+    lines = ['(a|b)*c']
+
+    for index, line in enumerate(lines):
+        start_time = time.time()
+
+        expression = Expression(line)
+        expression.shuntingYard()
+
+        abstract_syntax_tree = AbstractSyntaxTree(expression)
+        abstract_syntax_tree.build()
+
+        nfa = NonDeterministicFiniteAutomaton(
+            abstract_syntax_tree.builded, expression.alphabet)
+        nfa.thompson()
+
+        dfa = DeterministicFiniteAutomaton(nfa, expression.alphabet)
+        dfa.subsetsBuild()
+        dfa.minimize()
+
+        for string in ['ab', 'ac', 'aaabac', 'babc']:
+            expression = Expression(string)
+            expression.format()
+            expression.format_string()
+            print(f'{string} => ------------------------------------')
+            print(f'{string} => {nfa.simulate(expression.formatted)}')
+            print(f'{string} => {dfa.simulate(expression.formatted)}')
+            print(f'{string} => {dfa.min_simulate(expression.formatted)}')
+
+            EXPRESSION = ''
+            for token in expression.formatted:
+                EXPRESSION += token[0]
+
+        end_time = time.time()
+        print(f"Execution took {end_time - start_time:.2f} seconds to run.")
+
+
+testSimulate_NFA()
