@@ -8,7 +8,6 @@ You can effortlessly generate graphs from regular expressions, including Abstrac
 
 ## 📑 Index
 
-- 🎥 Youtube video presentation: [https://youtu.be/ZXSk65xWpzM](https://youtu.be/ZXSk65xWpzM)
 - [💻 Standalone terminal program version.](#standalone-terminal-program-version)
 - [🌐 How to run the server?](#how-to-run-the-server)
 - [🤔 Why I code this?](#why-i-code-this)
