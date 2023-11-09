@@ -5,8 +5,10 @@ Implementation of Shunting Yard, Thompson, subsets building and minimization alg
 
 You can effortlessly generate graphs from regular expressions, including Abstract Syntax Tree, Non-deterministic Finite Automaton, Deterministic Finite Automaton, and Minimized Finite Automaton. Additionally, iAutomaton enables you to simulate these automata with various input strings
 
+
 ## 📑 Index
 
+- 🎥 Youtube video presentation: [https://youtu.be/ZXSk65xWpzM](https://youtu.be/ZXSk65xWpzM)
 - [💻 Standalone terminal program version.](#standalone-terminal-program-version)
 - [🌐 How to run the server?](#how-to-run-the-server)
 - [🤔 Why I code this?](#why-i-code-this)
